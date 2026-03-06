@@ -11,12 +11,14 @@ class DataflowController extends Controller
     {
         return redirect('/login');
     }
-    
-    public function login(){
+
+    public function login()
+    {
         return view('login');
     }
-    
-    public function dashboard(){
+
+    public function dashboard()
+    {
         $petugas = User::where('is_admin', false)->get();
         return view('dashboard', compact('petugas'));
     }
@@ -25,5 +27,10 @@ class DataflowController extends Controller
     {
         $user = Auth::user();
         return view('beranda_petugas', compact('user'));
+    }
+
+    public function about()
+    {
+        return view('about');
     }
 }

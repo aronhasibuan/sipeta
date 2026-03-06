@@ -1,32 +1,184 @@
 <x-layout>
 
-    <h1 class="text-center text-[#FF6600] text-2xl font-bold mb-5">
-        Sistem Pemantauan Monitoring Petugas Lapangan (SIPETA)
-    </h1>
+    <div class="space-y-6">
 
-    <!-- ============================= -->
-    <!-- FILTER PETUGAS -->
-    <!-- ============================= -->
+        <!-- HEADER -->
+        <div class="bg-white shadow rounded-xl p-6">
 
-    <div class="mb-4">
-        <label class="font-semibold mr-2">Pilih Petugas:</label>
-        <select id="petugasFilter" class="border rounded px-3 pr-10 py-1">
-            <option value="all">Semua Petugas</option>
-            @foreach ($petugas as $p)
-                <option value="{{ $p->id }}">
-                    {{ $p->is_tracking ? '🟢' : '🔴' }} {{ $p->name }}
-                </option>
-            @endforeach
+            <h1 class="text-center text-[#FF6600] text-3xl font-bold">
+                Sistem Pemantauan Monitoring Petugas Lapangan (SIPETA)
+            </h1>
 
-        </select>
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- FILTER PETUGAS -->
+        <!-- ============================= -->
+
+        <div class="bg-white shadow rounded-xl p-5">
+
+            <div class="flex items-center gap-3">
+
+                <label class="font-semibold">
+                    Pilih Petugas
+                </label>
+
+                <select id="petugasFilter" class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#FF6600]">
+
+                    <option value="all">Semua Petugas</option>
+
+                    @foreach ($petugas as $p)
+                        <option value="{{ $p->id }}">
+                            {{ $p->is_tracking ? '🟢' : '🔴' }} {{ $p->name }}
+                        </option>
+                    @endforeach
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- MAP MONITORING -->
+        <!-- ============================= -->
+
+        <div class="bg-white shadow rounded-xl p-4">
+
+            <h2 class="text-lg font-semibold mb-3">
+                Monitoring Lokasi Petugas
+            </h2>
+
+            <div id="map" class="h-125 rounded-lg border"></div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- HISTORY SECTION -->
+        <!-- ============================= -->
+
+        <div class="bg-white shadow rounded-xl p-6">
+
+            <h2 class="text-xl font-semibold mb-4">
+                History Lokasi Petugas
+            </h2>
+
+
+            <!-- FILTER -->
+
+            <div class="flex flex-wrap items-center gap-3 mb-5">
+
+                <select id="user_id" class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#FF6600]">
+
+                    <option value="">Pilih Petugas</option>
+
+                    @foreach ($petugas as $p)
+                        <option value="{{ $p->id }}">
+                            {{ $p->name }}
+                        </option>
+                    @endforeach
+
+                </select>
+
+                <input type="date" id="date" class="border rounded-lg px-3 py-2">
+
+                <button onclick="loadHistory()"
+                    class="bg-[#FF6600] hover:bg-orange-600 text-white px-4 py-2 rounded-lg">
+
+                    Lihat History
+
+                </button>
+
+                <button onclick="exportExcel()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg">
+
+                    Export Excel
+
+                </button>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- TABEL -->
+            <!-- ============================= -->
+
+            <div class="overflow-x-auto">
+
+                <table class="w-full text-sm border rounded-lg overflow-hidden">
+
+                    <thead>
+
+                        <tr class="bg-gray-100 text-gray-700">
+
+                            <th class="border px-3 py-2 text-left">No</th>
+                            <th class="border px-3 py-2 text-left">Latitude</th>
+                            <th class="border px-3 py-2 text-left">Longitude</th>
+                            <th class="border px-3 py-2 text-left">Waktu</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="tableBody">
+
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-gray-500">
+                                Belum ada data
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            <!-- ============================= -->
+            <!-- PAGINATION -->
+            <!-- ============================= -->
+
+            <div class="flex justify-center items-center gap-3 mt-5">
+
+                <button onclick="prevPage()" class="px-4 py-1 bg-gray-200 hover:bg-gray-300 rounded">
+
+                    Prev
+
+                </button>
+
+                <span id="pageInfo" class="px-4 py-1 bg-gray-100 rounded"></span>
+
+                <button onclick="nextPage()" class="px-4 py-1 bg-gray-200 hover:bg-gray-300 rounded">
+
+                    Next
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- ============================= -->
+        <!-- MAP HISTORY -->
+        <!-- ============================= -->
+
+        <div class="bg-white shadow rounded-xl p-4">
+
+            <h3 class="text-lg font-semibold mb-3">
+                Map History Petugas
+            </h3>
+
+            <div id="historyMap" class="h-100 rounded-lg border"></div>
+
+        </div>
 
     </div>
 
-    <!-- ============================= -->
-    <!-- MAP MONITORING -->
-    <!-- ============================= -->
 
-    <div id="map" style="height:500px;"></div>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -107,101 +259,6 @@
     </script>
 
 
-    <!-- ============================= -->
-    <!-- HISTORY FILTER -->
-    <!-- ============================= -->
-
-    <h2 class="text-lg font-semibold mt-8 mb-3">
-        History Lokasi Petugas
-    </h2>
-
-    <div class="flex gap-4 mb-4">
-
-        <select id="user_id" class="border p-2 rounded">
-
-            <option value="">Pilih Petugas</option>
-
-            @foreach ($petugas as $p)
-                <option value="{{ $p->id }}">
-                    {{ $p->name }}
-                </option>
-            @endforeach
-
-        </select>
-
-        <input type="date" id="date" class="border p-2 rounded">
-
-        <button onclick="loadHistory()" class="bg-blue-500 text-white px-4 py-2 rounded">
-            Lihat History
-        </button>
-
-        <button onclick="exportExcel()" class="bg-green-500 text-white px-3 py-1 rounded">
-            Export Excel
-        </button>
-
-    </div>
-
-
-    <!-- ============================= -->
-    <!-- TABEL HISTORY -->
-    <!-- ============================= -->
-
-    <table class="table-auto w-full border">
-
-        <thead>
-
-            <tr class="bg-gray-200">
-                <th class="border px-2 py-1">No</th>
-                <th class="border px-2 py-1">Latitude</th>
-                <th class="border px-2 py-1">Longitude</th>
-                <th class="border px-2 py-1">Waktu</th>
-            </tr>
-
-        </thead>
-
-        <tbody id="tableBody">
-
-            <tr>
-                <td colspan="4" class="text-center py-3">
-                    Belum ada data
-                </td>
-            </tr>
-
-        </tbody>
-
-    </table>
-
-
-    <!-- ============================= -->
-    <!-- PAGINATION -->
-    <!-- ============================= -->
-
-    <div class="flex justify-center gap-2 mt-4">
-
-        <button onclick="prevPage()" class="px-3 py-1 bg-gray-300 rounded">
-            Prev
-        </button>
-
-        <span id="pageInfo" class="px-3 py-1"></span>
-
-        <button onclick="nextPage()" class="px-3 py-1 bg-gray-300 rounded">
-            Next
-        </button>
-
-    </div>
-
-
-    <!-- ============================= -->
-    <!-- MAP HISTORY -->
-    <!-- ============================= -->
-
-    <h3 class="text-lg font-semibold mt-6 mb-2">
-        Map History Petugas
-    </h3>
-
-    <div id="historyMap" style="height:400px;"></div>
-
-
     <script>
         let historyData = [];
         let currentPage = 1;
@@ -259,25 +316,25 @@
             if (pageData.length === 0) {
 
                 table = `
-                    <tr>
-                    <td colspan="4" class="text-center py-3">
-                    Tidak ada data
-                    </td>
-                    </tr>
-                    `;
+            <tr>
+            <td colspan="4" class="text-center py-3">
+            Tidak ada data
+            </td>
+            </tr>
+            `;
 
             } else {
 
                 pageData.forEach((loc, i) => {
 
                     table += `
-                        <tr>
-                        <td class="border px-2">${start + i + 1}</td>
-                        <td class="border px-2">${loc.latitude}</td>
-                        <td class="border px-2">${loc.longitude}</td>
-                        <td class="border px-2">${loc.recorded_at}</td>
-                        </tr>
-                        `;
+                <tr>
+                <td class="border px-2">${start + i + 1}</td>
+                <td class="border px-2">${loc.latitude}</td>
+                <td class="border px-2">${loc.longitude}</td>
+                <td class="border px-2">${loc.recorded_at}</td>
+                </tr>
+                `;
 
                 });
 

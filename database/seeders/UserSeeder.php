@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'is_admin' => true,
             'is_tracking' => false,
+            'kegiatan' => 'admin',
         ]);
 
         User::create([
@@ -26,6 +27,7 @@ class UserSeeder extends Seeder
             'password' => Hash::make('password'),
             'is_admin' => false,
             'is_tracking' => false,
+            'kegiatan' => 'Ground Check PBI',
         ]);
 
         User::create([
@@ -34,7 +36,8 @@ class UserSeeder extends Seeder
             'email' => 'tanjungmorawa@sipeta.com',
             'password' => Hash::make('password'),
             'is_admin' => false,
-            'is_tracking' => true, // dummy langsung aktif
+            'is_tracking' => true,
+            'kegiatan' => 'Ground Check PBI',
         ]);
 
         User::create([
@@ -43,7 +46,8 @@ class UserSeeder extends Seeder
             'email' => 'percut@sipeta.com',
             'password' => Hash::make('password'),
             'is_admin' => false,
-            'is_tracking' => true, // dummy langsung aktif
+            'is_tracking' => true,
+            'kegiatan' => 'Ground Check PBI',
         ]);
 
         User::create([
@@ -52,7 +56,8 @@ class UserSeeder extends Seeder
             'email' => 'pancurbatu@sipeta.com',
             'password' => Hash::make('password'),
             'is_admin' => false,
-            'is_tracking' => true, // dummy langsung aktif
+            'is_tracking' => true,
+            'kegiatan' => 'Ground Check PBI',
         ]);
     }
 }

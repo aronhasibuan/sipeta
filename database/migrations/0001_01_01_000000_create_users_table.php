@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('password');
             $table->boolean('is_admin');
             $table->boolean('is_tracking')->default(false);
+            $table->string('kegiatan');
             $table->rememberToken();
             $table->timestamps();
         });
