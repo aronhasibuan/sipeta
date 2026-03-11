@@ -11,6 +11,11 @@
         </div>
 
         <div>
+            <label>Kegiatan</label>
+            <input type="text" name="kegiatan" class="w-full border rounded p-2">
+        </div>
+
+        <div>
             <label>Email</label>
             <input type="email" name="email" class="w-full border rounded p-2">
         </div>

@@ -1,56 +1,92 @@
 <x-layout>
 
-    <h1 class="text-2xl font-bold mb-4">Manajemen Pengguna</h1>
+    <div class="space-y-4">
 
-    <a href="{{ route('users.create') }}" class="bg-[#FF6600] text-white px-4 py-2 rounded-lg">
-        Tambah Pengguna
-    </a>
+        <!-- HEADER -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
 
-    <div class="mt-4 bg-white shadow rounded-lg overflow-hidden">
+            <h1 class="text-xl md:text-2xl font-bold">
+                Manajemen Pengguna
+            </h1>
 
-        <table class="w-full text-left">
+            <a href="{{ route('users.create') }}"
+                class="bg-[#FF6600] text-white px-4 py-2 rounded-lg text-center w-full sm:w-auto">
+                Tambah Pengguna
+            </a>
 
-            <thead class="bg-gray-100">
-                <tr>
-                    <th class="p-3">Nama</th>
-                    <th class="p-3">Email</th>
-                    <th class="p-3">Aksi</th>
-                </tr>
-            </thead>
+        </div>
 
-            <tbody>
 
-                @foreach ($users as $user)
-                    <tr class="border-b">
+        <!-- TABLE -->
 
-                        <td class="p-3">{{ $user->name }}</td>
-                        <td class="p-3">{{ $user->email }}</td>
+        <div class="bg-white shadow rounded-lg overflow-hidden">
 
-                        <td class="p-3 flex gap-2">
+            <div class="overflow-x-auto">
 
-                            <a href="{{ route('users.edit', $user->id) }}"
-                                class="bg-blue-500 text-white px-3 py-1 rounded">
-                                Edit
-                            </a>
+                <table class="w-full text-sm md:text-base text-left">
 
-                            <form action="{{ route('users.destroy', $user->id) }}" method="POST">
-                                @csrf
-                                @method('DELETE')
+                    <thead class="bg-gray-100">
 
-                                <button class="bg-red-500 text-white px-3 py-1 rounded">
-                                    Hapus
-                                </button>
+                        <tr>
+                            <th class="px-3 py-2 md:px-4 md:py-3">Nama</th>
+                            <th class="px-3 py-2 md:px-4 md:py-3">Email</th>
+                            <th class="px-3 py-2 md:px-4 md:py-3">Aksi</th>
+                        </tr>
 
-                            </form>
+                    </thead>
 
-                        </td>
+                    <tbody>
 
-                    </tr>
-                @endforeach
+                        @foreach ($users as $user)
+                            <tr class="border-b hover:bg-gray-50">
 
-            </tbody>
+                                <td class="px-3 py-2 md:px-4 md:py-3 font-medium">
+                                    {{ $user->name }}
+                                </td>
 
-        </table>
+                                <td class="px-3 py-2 md:px-4 md:py-3 text-gray-600 break-all">
+                                    {{ $user->email }}
+                                </td>
+
+                                <td class="px-3 py-2 md:px-4 md:py-3">
+
+                                    <div class="flex flex-wrap gap-2">
+
+                                        <a href="{{ route('users.edit', $user->id) }}"
+                                            class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+
+                                            Edit
+
+                                        </a>
+
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST">
+
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button
+                                                class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+
+                                                Hapus
+
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
 
     </div>
 

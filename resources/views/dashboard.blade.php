@@ -3,9 +3,9 @@
     <div class="space-y-6">
 
         <!-- HEADER -->
-        <div class="bg-white shadow rounded-xl p-6">
+        <div class="bg-white shadow rounded-xl p-4 md:p-6">
 
-            <h1 class="text-center text-[#FF6600] text-3xl font-bold">
+            <h1 class="text-center text-[#FF6600] text-xl md:text-3xl font-bold leading-snug">
                 Sistem Pemantauan Monitoring Petugas Lapangan (SIPETA)
             </h1>
 
@@ -16,7 +16,7 @@
         <!-- FILTER PETUGAS -->
         <!-- ============================= -->
 
-        <div class="bg-white shadow rounded-xl p-5">
+        <div class="bg-white shadow rounded-xl p-4 md:p-5">
 
             <div class="flex items-center gap-3">
 
@@ -24,7 +24,8 @@
                     Pilih Petugas
                 </label>
 
-                <select id="petugasFilter" class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#FF6600]">
+                <select id="petugasFilter"
+                    class="border rounded-lg px-3 py-2 w-full sm:w-auto focus:ring-2 focus:ring-[#FF6600]">
 
                     <option value="all">Semua Petugas</option>
 
@@ -47,11 +48,11 @@
 
         <div class="bg-white shadow rounded-xl p-4">
 
-            <h2 class="text-lg font-semibold mb-3">
+            <h2 class="text-base md:text-lg font-semibold mb-3">
                 Monitoring Lokasi Petugas
             </h2>
 
-            <div id="map" class="h-125 rounded-lg border"></div>
+            <div id="map" class="h-75 sm:h-100 md:125 rounded-lg border"></div>
 
         </div>
 
@@ -60,16 +61,16 @@
         <!-- HISTORY SECTION -->
         <!-- ============================= -->
 
-        <div class="bg-white shadow rounded-xl p-6">
+        <div class="bg-white shadow rounded-xl p-4 md:p-6">
 
-            <h2 class="text-xl font-semibold mb-4">
+            <h2 class="text-lg md:text-xl font-semibold mb-4">
                 History Lokasi Petugas
             </h2>
 
 
             <!-- FILTER -->
 
-            <div class="flex flex-wrap items-center gap-3 mb-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-5">
 
                 <select id="user_id" class="border rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#FF6600]">
 
@@ -113,10 +114,10 @@
 
                         <tr class="bg-gray-100 text-gray-700">
 
-                            <th class="border px-3 py-2 text-left">No</th>
-                            <th class="border px-3 py-2 text-left">Latitude</th>
-                            <th class="border px-3 py-2 text-left">Longitude</th>
-                            <th class="border px-3 py-2 text-left">Waktu</th>
+                            <th class="border px-2 md:px-3 py-2 text-left">No</th>
+                            <th class="border px-2 md:px-3 py-2 text-left">Latitude</th>
+                            <th class="border px-2 md:px-3 py-2 text-left">Longitude</th>
+                            <th class="border px-2 md:px-3 py-2 text-left">Waktu</th>
 
                         </tr>
 
@@ -141,7 +142,7 @@
             <!-- PAGINATION -->
             <!-- ============================= -->
 
-            <div class="flex justify-center items-center gap-3 mt-5">
+            <div class="flex flex-wrap justify-center items-center gap-3 mt-5">
 
                 <button onclick="prevPage()" class="px-4 py-1 bg-gray-200 hover:bg-gray-300 rounded">
 
@@ -168,11 +169,11 @@
 
         <div class="bg-white shadow rounded-xl p-4">
 
-            <h3 class="text-lg font-semibold mb-3">
+            <h3 class="text-base md:text-lg font-semibold mb-3">
                 Map History Petugas
             </h3>
 
-            <div id="historyMap" class="h-100 rounded-lg border"></div>
+            <div id="historyMap" class="h-75 sm:h-100 md:h-112.5 rounded-lg border"></div>
 
         </div>
 
@@ -241,7 +242,14 @@
 
                                 markers[loc.user_id] = L.marker([lat, lng])
                                     .addTo(map)
-                                    .bindPopup(loc.user.name);
+                                    .bindPopup(`
+                                        <div style="min-width:150px">
+                                            <b>${loc.user.name}</b><br>
+                                            <span style="font-size:12px;color:gray">
+                                                ${loc.user.kegiatan ?? 'Tidak ada kegiatan'}
+                                            </span>
+                                        </div>
+                                    `);
 
                             }
 

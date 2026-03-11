@@ -27,6 +27,10 @@
                 {{ $user->kegiatan }}
             </p>
 
+            <p class="mt-3 text-sm text-gray-500 italic">
+                Jika kegiatan yang ingin dilakukan tidak sesuai, silakan hubungi admin untuk mengubah kegiatan.
+            </p>
+
         </div>
 
 

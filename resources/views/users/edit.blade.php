@@ -18,6 +18,11 @@
                 <input type="email" name="email" value="{{ $user->email }}" class="w-full border rounded p-2">
             </div>
 
+            <div>
+                <label>Kegiatan</label>
+                <input type="text" name="kegiatan" value="{{ $user->kegiatan }}" class="w-full border rounded p-2">
+            </div>
+
             <button class="bg-[#FF6600] text-white px-4 py-2 rounded">
                 Update
             </button>

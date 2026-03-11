@@ -24,12 +24,14 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
+            'kegiatan' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:6'
         ]);
 
         User::create([
             'name' => $request->name,
+            'kegiatan' => $request->kegiatan,
             'email' => $request->email,
             'password' => Hash::make($request->password)
         ]);
@@ -49,12 +51,14 @@ class UserController extends Controller
 
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'kegiatan' => 'required'
         ]);
 
         $user->update([
             'name' => $request->name,
-            'email' => $request->email
+            'email' => $request->email,
+            'kegiatan' => $request->kegiatan
         ]);
 
         return redirect()->route('users.index')->with('updated', 'Pengguna berhasil diperbarui');
